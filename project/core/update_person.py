@@ -17,21 +17,25 @@ def choose_and_update_person():
 
     # Check if the script has been executed today
     if os.path.exists('last_execution_date.txt'):
+        # If the file exists, read the last execution date from it
         with open('last_execution_date.txt', 'r') as file:
             last_execution_date_str = file.read().strip()
             last_execution_date = datetime.strptime(last_execution_date_str, '%Y-%m-%d').date()
+            # If the last execution date is today, return the last chosen person
             if last_execution_date == today:
-                # If script already executed today, return the name of the person chosen
-                with open('last_chosen_person.txt', 'r') as chosen_file:
-                    chosen_person = chosen_file.read().strip()
-                return chosen_person
+                if os.path.exists('last_chosen_person.txt'):
+                    with open('last_chosen_person.txt', 'r') as chosen_file:
+                        chosen_person = chosen_file.read().strip()
+                    return chosen_person
+                else:
+                    return None
     else:
-        # Create the file if it doesn't exist
+        # If the file doesn't exist, create it and write today's date
         with open('last_execution_date.txt', 'w') as file:
             file.write(str(today))
 
     # Define the scheduled time for updating (e.g., 1:00 PM)
-    scheduled_time = time(13, 0)  # 1:00 PM
+    scheduled_time = time(00, 0)  # 1:00 PM
 
     # Get the current time
     now = datetime.now().time()
@@ -54,17 +58,20 @@ def choose_and_update_person():
             random_person.lastChosen = today
             random_person.save()
             chosen_person_name = random_person.nombre
+            
+            # Save the last chosen person in a text file
             with open('last_chosen_person.txt', 'w') as chosen_file:
                 chosen_file.write(chosen_person_name)
+
+            # Update the last execution date in the file
+            with open('last_execution_date.txt', 'w') as file:
+                file.write(str(today))
+
             return chosen_person_name
         else:
             print("No eligible people found in the Gente table.")
     else:
         print("It's not yet time for updating.")
-
-    # Update the last execution date in the file
-    with open('last_execution_date.txt', 'w') as file:
-        file.write(str(today))
 
 if __name__ == "__main__":
     chosen_person = choose_and_update_person()
