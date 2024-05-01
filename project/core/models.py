@@ -10,6 +10,6 @@ class Gente(models.Model):
         return self.nombre
     
 class Mensaje(models.Model):
-    msg = models.CharField(max_length=150,blank=True)
+    msg = models.CharField(max_length=150)
     def __str__(self) -> str:
         return self.msg

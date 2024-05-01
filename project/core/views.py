@@ -11,7 +11,7 @@ def home(request):
         else:
             print(form.errors)
     else:
-        form = forms.MostrarMensajes()
+        form = forms.AgregarMensaje()
 
     
     random_person_nombre = choose_and_update_person()
