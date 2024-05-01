@@ -10,6 +10,10 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.holagradient {
+  background: linear-gradient(3deg, #032166 0%, #2b60c6 35%, #00ffab 100%);
+}
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -10854,9 +10858,7 @@ html {
   font-weight: 700;
   letter-spacing: 0.1rem;
 }
-.holagradient {
-  background: linear-gradient(3deg, #032166 0%, #2b60c6 35%, #00ffab 100%);
-}
+
 header.masthead {
   position: relative;
   overflow: hidden;
@@ -10881,7 +10883,6 @@ header.masthead .bg-circle {
   z-index: 0;
   position: absolute;
   border-radius: 100%;
-  background: linear-gradient(0deg, #ee0979 0%, #ff6a00 100%);
 }
 header.masthead .bg-circle-1 {
   height: 90rem;

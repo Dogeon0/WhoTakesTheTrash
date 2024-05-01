@@ -8,3 +8,8 @@ class Gente(models.Model):
     lastChosen = models.DateField(default=datetime.date(2001, 1, 1))
     def __str__(self) -> str:
         return self.nombre
+    
+class Mensaje(models.Model):
+    msg = models.CharField(max_length=150)
+    def __str__(self) -> str:
+        return self.msg
