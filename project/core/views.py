@@ -1,6 +1,7 @@
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from . import models, forms
-from .update_person import choose_and_update_person  # Import the function from your script
+from .update_person import assign_dates  # Import the function from your script
 
 def home(request):
     if request.method == "POST":
@@ -13,14 +14,19 @@ def home(request):
     else:
         form = forms.AgregarMensaje()
 
-    
-    random_person_nombre = choose_and_update_person()
-    gente_objects = models.Gente.objects.all()
-    mensajes = models.Mensaje.objects.all().order_by('-id')[:3][::1]
-    context = {
-        "gentes": gente_objects, 
-        "random_person_nombre": random_person_nombre,
-        "form": form,
-        "mensajes":mensajes}
-    return render(request, "index.html", context)
+    # Assign dates if not already assigned or if the cycle is complete
+    today = datetime.now().date()
+    if not models.Gente.objects.filter(assignedDate__gte=today).exists():
+        assign_dates()
 
+    # Fetch people with their assigned dates
+    gente_objects = models.Gente.objects.all().order_by('assignedDate')
+    mensajes = models.Mensaje.objects.all().order_by('-id')[:3][::1]
+    
+    context = {
+        "gentes": gente_objects,
+        "form": form,
+        "mensajes": mensajes
+    }
+
+    return render(request, "index.html", context)
